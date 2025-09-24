@@ -366,7 +366,7 @@ export class TUFClient {
     if (snapshot[`${Roles.Targets}.json`].hashes?.sha256) {
       const newTargetsRaw_sha256 = Uint8ArrayToHex(
         new Uint8Array(
-          await crypto.subtle.digest(HashAlgorithms.SHA256, newTargetsRaw.buffer as ArrayBuffer),
+          await crypto.subtle.digest(HashAlgorithms.SHA256, newTargetsRaw),
         ),
       );
 
@@ -452,7 +452,7 @@ export class TUFClient {
       );
       const sha256_calculated = Uint8ArrayToHex(
         new Uint8Array(
-          await crypto.subtle.digest(HashAlgorithms.SHA256, raw_file.buffer as ArrayBuffer),
+          await crypto.subtle.digest(HashAlgorithms.SHA256, raw_file),
         ),
       );
       // TODO replace with crypto.bufferEqual

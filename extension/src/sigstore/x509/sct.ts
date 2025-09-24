@@ -111,7 +111,7 @@ export class SignedCertificateTimestamp {
   // https://www.rfc-editor.org/rfc/rfc6962#section-3.2
   // https://www.rfc-editor.org/rfc/rfc5246#section-7.4.1.4.1
   public static parse(buf: Uint8Array): SignedCertificateTimestamp {
-    const stream = new ByteStream(buf.buffer as ArrayBuffer);
+    const stream = new ByteStream(buf);
 
     // Version - enum { v1(0), (255) }
     const version = stream.getUint8();

@@ -177,7 +177,7 @@ export class X509SCTExtension extends X509Extension {
 
   get signedCertificateTimestamps(): SignedCertificateTimestamp[] {
     const buf = this.extnValueObj.subs[0].value;
-    const stream = new ByteStream(buf.buffer as ArrayBuffer);
+    const stream = new ByteStream(buf);
 
     // The overall list length is encoded in the first two bytes -- note this
     // is the length of the list in bytes, NOT the number of SCTs in the list

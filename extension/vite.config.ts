@@ -8,7 +8,6 @@ export default defineConfig({
     __TESTING__: JSON.stringify(isTesting),
   },
   build: {
-    sourcemap: true,
     minify: !isTesting,
     outDir: "dist",
     target: "esnext",

@@ -149,7 +149,7 @@ export class SigstoreVerifier {
 
     // Calculate hash of the issuer's public key
     const issuerId = new Uint8Array(
-      await crypto.subtle.digest("SHA-256", issuer.publicKey),
+      await crypto.subtle.digest("SHA-256", issuer.publicKey.buffer as ArrayBuffer),
     );
     preCert.appendView(issuerId);
 

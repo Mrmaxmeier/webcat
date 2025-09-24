@@ -342,7 +342,7 @@
   /* END HASH FUNCTION */
 
   // Helper: Convert ArrayBuffer digest to a hex string.
-  function arrayBufferToHex(buffer: ArrayBuffer): string {
+  function arrayBufferToHex(buffer: ArrayBuffer | Uint8Array): string {
     const byteArray = new Uint8Array(buffer);
     const hexCodes: string[] = [];
     for (const byte of byteArray) {
@@ -382,7 +382,7 @@
       return bufferSource;
     }
     if (ArrayBuffer.isView(bufferSource)) {
-      return bufferSource.buffer;
+      return bufferSource.buffer as ArrayBuffer;
     }
     throw new TypeError(
       "WebAssembly bytecode must be provided as an ArrayBuffer or typed array",
@@ -518,7 +518,7 @@
     }
     const buffer: ArrayBuffer = extractBuffer(bufferSource);
     verifyBytecodeSync(buffer);
-    return new OriginalModule(bufferSource);
+    return new OriginalModule(bufferSource as BufferSource);
   }
 
   // Set up the prototype.

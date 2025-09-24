@@ -46,7 +46,7 @@ export async function loadKeys(
       new Uint8Array(
         await crypto.subtle.digest(
           "SHA-256",
-          stringToUint8Array(canonicalize(key)),
+          stringToUint8Array(canonicalize(key)).buffer as ArrayBuffer,
         ),
       ),
     );
@@ -81,7 +81,7 @@ export async function importKey(
 ): Promise<CryptoKey> {
   class importParams {
     format: "raw" | "spki" = "spki";
-    keyData: ArrayBuffer = new Uint8Array();
+    keyData: ArrayBuffer = new ArrayBuffer(0);
     algorithm: {
       name: "ECDSA" | "Ed25519" | "RSASSA-PKCS1-v1_5" | "RSA-PSS" | "RSA-OAEP";
       namedCurve?: EcdsaTypes;
@@ -95,15 +95,15 @@ export async function importKey(
   if (key.includes("BEGIN")) {
     // If it has a begin then it is a PEM
     params.format = "spki";
-    params.keyData = toDER(key);
+    params.keyData = toDER(key).buffer as ArrayBuffer;
   } else if (/^[0-9A-Fa-f]+$/.test(key)) {
     // Is it hex?
     params.format = "raw";
-    params.keyData = hexToUint8Array(key);
+    params.keyData = hexToUint8Array(key).buffer as ArrayBuffer;
   } else {
     // It might be base64, without the PEM header, as in sigstore trusted_root
     params.format = "spki";
-    params.keyData = base64ToUint8Array(key);
+    params.keyData = base64ToUint8Array(key).buffer as ArrayBuffer;
   }
 
   // Let's see supported key types
@@ -200,7 +200,7 @@ export async function verifySignature(
       return false;
     }
 
-    return await crypto.subtle.verify(options, key, raw_signature, signed);
+    return await crypto.subtle.verify(options, key, raw_signature.buffer as ArrayBuffer, signed.buffer as ArrayBuffer);
   } else if (key.algorithm.name === KeyTypes.Ed25519) {
     // No need to specify hash in this case, the crypto API does not take it as input for this key type
     throw new Error(

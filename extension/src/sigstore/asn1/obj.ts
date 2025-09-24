@@ -38,7 +38,7 @@ export class ASN1Obj {
 
   // Constructs an ASN.1 object from a Buffer of DER-encoded bytes.
   public static parseBuffer(buf: Uint8Array): ASN1Obj {
-    return parseStream(new ByteStream(buf));
+    return parseStream(new ByteStream(buf.buffer as ArrayBuffer));
   }
 
   public toDER(): Uint8Array {

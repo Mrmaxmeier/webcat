@@ -30,7 +30,7 @@ export async function SHA256(data: ArrayBuffer | Uint8Array | string) {
   } else {
     inputData = data;
   }
-  const hash = await crypto.subtle.digest("SHA-256", inputData);
+  const hash = await crypto.subtle.digest("SHA-256", inputData as BufferSource);
 
   return hash;
 }

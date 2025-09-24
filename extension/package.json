@@ -6,7 +6,7 @@
   "main": "src/background.ts",
   "scripts": {
     "build:hooks": "tsc -p tsconfig.hooks.json",
-    "build": "npm run build:hooks && tsc && vite build",
+    "build": "yarn run build:hooks && tsc && vite build",
     "test": "vitest",
     "test:playwright": "vitest --config vite.config.playwright.ts",
     "test:default": "vitest --config vite.config.ts",
